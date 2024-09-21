@@ -1,0 +1,9 @@
+# player
+#   Description: Player class for mastermind game
+#   parameters:
+#   return value:
+class Player
+  def hello_world
+    puts "Hi, I'm a player."
+  end
+end
