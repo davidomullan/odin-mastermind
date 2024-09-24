@@ -67,8 +67,9 @@ class Board
   end
 
   def print_diff
+    shuffled_diff = diff_state.shuffle
     print '('
-    diff_state.each { |elem|
+    shuffled_diff.each { |elem|
       case elem
       when 0
         print ' '
