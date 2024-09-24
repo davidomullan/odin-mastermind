@@ -26,6 +26,8 @@ class Board
       board_state[i] = elem.to_i
       if elem.to_i  == game_solution[i]
         diff_state[i] = 1
+      elsif game_solution.include? elem.to_i
+        diff_state[i] = 2
       else
         diff_state[i] = 0
       end
@@ -69,9 +71,11 @@ class Board
     diff_state.each { |elem|
       case elem
       when 0
-        print '0'.colorize(:black)
+        print ' '
       when 1
-        print '1'.colorize(:white)
+        print 'O'.colorize(:white)
+      when 2
+        print 'O'.colorize(:black)
       end
     }
     print ")\n"
