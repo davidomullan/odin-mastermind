@@ -22,15 +22,16 @@ class Board
   end
 
   def check_guess(player_guess)
+    board_state = Array.new(4, 0)
     player_guess.each_with_index { |elem, i|
-      board_state[i] = elem.to_i
       if elem.to_i  == game_solution[i]
         diff_state[i] = 1
-      elsif game_solution.include? elem.to_i
+      elsif game_solution.include?(elem.to_i) and not board_state.include?(elem.to_i)
         diff_state[i] = 2
       else
         diff_state[i] = 0
       end
+      board_state[i] = elem.to_i
     }
   end
 
