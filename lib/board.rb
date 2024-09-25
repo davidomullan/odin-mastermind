@@ -2,7 +2,7 @@
 # This class represents a game board for mastermind
 
 class Board
-  attr_reader :board_state, :number_turns, :game_solution, :diff_state, :has_won
+  attr_accessor :board_state, :number_turns, :game_solution, :diff_state, :has_won
   @@number_turns = 12
 
   # Return value of class variable number_turns
@@ -22,33 +22,33 @@ class Board
   end
 
   def check_guess(player_guess)
-    board_state = Array.new(4, 0)
+    self.board_state = Array.new(4, 0)
     player_guess.each_with_index { |elem, i|
-      if elem.to_i  == game_solution[i]
-        diff_state[i] = 1
-      elsif game_solution.include?(elem.to_i) and not board_state.include?(elem.to_i)
-        diff_state[i] = 2
+      if elem.to_i  == self.game_solution[i]
+        self.diff_state[i] = 1
+      elsif self.game_solution.include?(elem.to_i) and not self.board_state.include?(elem.to_i)
+        self.diff_state[i] = 2
       else
-        diff_state[i] = 0
+        self.diff_state[i] = 0
       end
-      board_state[i] = elem.to_i
+      self.board_state[i] = elem.to_i
     }
+    print_board
   end
 
   def report_diff
-    print_board
-    if diff_state == Array.new(4, 1)
+    if self.diff_state == Array.new(4, 1)
       puts "Congratulations, you win!"
-      has_won = true
+      self.has_won = true
     else
       print_diff
     end
-    return has_won
+    return self.has_won
   end
 
   def print_board
     print '('
-    board_state.each_with_index { |elem, index|
+    self.board_state.each { |elem|
       case elem
       when 1
         print '1'.colorize(:red)
@@ -68,7 +68,7 @@ class Board
   end
 
   def print_diff
-    shuffled_diff = diff_state.shuffle
+    shuffled_diff = self.diff_state.shuffle
     print '('
     shuffled_diff.each { |elem|
       case elem
