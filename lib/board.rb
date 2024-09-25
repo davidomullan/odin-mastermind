@@ -2,7 +2,7 @@
 # This class represents a game board for mastermind
 
 class Board
-  attr_accessor :board_state, :number_turns, :game_solution, :diff_state, :has_won
+  attr_accessor :board_state, :diff_state, :has_won
   @@number_turns = 12
 
   # Return value of class variable number_turns
@@ -14,25 +14,31 @@ class Board
     @has_won = false
     @board_state = Array.new(4, 0)
     @diff_state = Array.new(4, 0)
-    @game_solution = generate_code
   end
 
-  def generate_code
-    return Array.new(4) { rand(1..6) }
-  end
-
-  def check_guess(player_guess)
+  def check_guess(player_guess, game_solution)
     self.board_state = Array.new(4, 0)
+    self.diff_state = Array.new(4, 0)
+
+    puts "player_guess: #{player_guess}"
+    puts "game_solution: #{game_solution}"
     player_guess.each_with_index { |elem, i|
-      if elem.to_i  == self.game_solution[i]
+      if elem.to_i  == game_solution[i]
         self.diff_state[i] = 1
-      elsif self.game_solution.include?(elem.to_i) and not self.board_state.include?(elem.to_i)
-        self.diff_state[i] = 2
-      else
-        self.diff_state[i] = 0
+        self.board_state[i] = elem.to_i
       end
+    }
+
+    puts "diff_state: #{self.diff_state}"
+    
+    player_guess.each_with_index { |elem, i|
+      if game_solution.include?(elem.to_i) and not self.board_state.include?(elem.to_i)
+        self.diff_state[i] = 2
+      end
+
       self.board_state[i] = elem.to_i
     }
+    
     print_board
   end
 
