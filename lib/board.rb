@@ -20,16 +20,12 @@ class Board
     self.board_state = Array.new(4, 0)
     self.diff_state = Array.new(4, 0)
 
-    puts "player_guess: #{player_guess}"
-    puts "game_solution: #{game_solution}"
     player_guess.each_with_index { |elem, i|
       if elem.to_i  == game_solution[i]
         self.diff_state[i] = 1
         self.board_state[i] = elem.to_i
       end
     }
-
-    puts "diff_state: #{self.diff_state}"
     
     player_guess.each_with_index { |elem, i|
       if game_solution.include?(elem.to_i) and not self.board_state.include?(elem.to_i)

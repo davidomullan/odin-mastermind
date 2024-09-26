@@ -5,7 +5,6 @@ class Codemaker
 
   def initialize
     @code = random_code
-    puts "Random code: #{self.code}"
   end
 
   def random_code

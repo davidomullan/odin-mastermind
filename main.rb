@@ -28,9 +28,6 @@ while true do
 end
 
 if game_mode == 'g' then
-  # Display Initial Game State
-  print player.current_guess; print "\n"
-  
   # Loop through game rounds
   new_game.number_turns.times { |index|
     puts "Welcome to Round #{index+1}!"
@@ -52,11 +49,9 @@ if game_mode == 'g' then
   else
     puts 'Thanks for playing!'
   end
-  
-else # User is codemaker
-  # Display Initial Game State
-  print player.current_guess; print "\n"
 
+# User is codemaker
+else
   # Ask user for code
   codemaker.code.each_with_index { |elem, i|
     print "Enter value #{i+1}: "
@@ -77,15 +72,17 @@ else # User is codemaker
   new_game.number_turns.times { |index|
     puts "Welcome to Round #{index+1}!"
     
-    # Ask user for guess
-    #player.generate_guess
-    player.current_guess = Array.new(4, 1)
+    # Ask computer for guess
+    player.generate_guess
     
     # Compare guess to solution and report diff
     new_game.check_guess(player.current_guess, codemaker.code)
     
     # Break loop if game won
     break if new_game.report_diff(game_mode) == true
+
+    # Update possible_code array
+    player.update_possible_code(new_game.diff_state)
   }
   
   if new_game.has_won == false
