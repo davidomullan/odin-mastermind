@@ -12,26 +12,84 @@ require_relative 'lib/board'
 new_game = Board.new
 player = Player.new
 codemaker = Codemaker.new
+game_mode = ''
 
-# Display Initial Game State
-print player.current_guess; print "\n"
+# Choose Game Mode
+print 'Welcome to the game of Mastermind! Would you like to be the guesser or codemaker? (Enter: g or c): '
+while true do
+  game_mode = gets.chomp
+  if game_mode == 'g' or game_mode == 'c'
+    break
+  elsif game_mode == 'q' or game_mode == 'quit'
+    abort('Hope you come back soon!')
+  else
+    puts 'Please enter a valid key: g (guesser) or c (codemaker)'
+  end
+end
 
-# Loop through game rounds
-new_game.number_turns.times { |index|
-  puts "Welcome to Round #{index+1}!"
+if game_mode == 'g' then
+  # Display Initial Game State
+  print player.current_guess; print "\n"
   
-  # Ask user for guess
-  player.request_guess
+  # Loop through game rounds
+  new_game.number_turns.times { |index|
+    puts "Welcome to Round #{index+1}!"
+    
+    # Ask user for guess
+    player.request_guess
+    
+    # Compare guess to solution and report diff
+    new_game.check_guess(player.current_guess, codemaker.code)
+    
+    # Break loop if game won
+    break if new_game.report_diff(game_mode) == true
+  }
   
-  # Compare guess to solution and report diff
-  new_game.check_guess(player.current_guess, codemaker.code)
+  if new_game.has_won == false
+    print 'The code was: '
+    new_game.print_code(codemaker.code)
+    puts 'Game Over! Better luck next time!'
+  else
+    puts 'Thanks for playing!'
+  end
+  
+else # User is codemaker
+  # Display Initial Game State
+  print player.current_guess; print "\n"
 
-  # Break loop if game won
-  break if new_game.report_diff == true
-}
+  # Ask user for code
+  codemaker.code.each_with_index { |elem, i|
+    print "Enter value #{i+1}: "
+    while true do
+      codemaker.code[i] = gets.chomp.to_i
+      if (1..6).include?(codemaker.code[i]) then
+        break
+      else
+        print 'Please try again (1-6): '
+      end
+    end
+  }
 
-if new_game.has_won != false
-  puts 'Game Over! Better luck next time!'
-else
+  # Display Code
+  new_game.print_code(codemaker.code)
+  
+  # Loop through game rounds
+  new_game.number_turns.times { |index|
+    puts "Welcome to Round #{index+1}!"
+    
+    # Ask user for guess
+    #player.generate_guess
+    player.current_guess = Array.new(4, 1)
+    
+    # Compare guess to solution and report diff
+    new_game.check_guess(player.current_guess, codemaker.code)
+    
+    # Break loop if game won
+    break if new_game.report_diff(game_mode) == true
+  }
+  
+  if new_game.has_won == false
+    puts 'Congratulations! The computer failed to guess your code!'
+  end
   puts 'Thanks for playing!'
 end

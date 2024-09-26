@@ -42,10 +42,15 @@ class Board
     print_board
   end
 
-  def report_diff
-    if self.diff_state == Array.new(4, 1)
-      puts "Congratulations, you win!"
-      self.has_won = true
+  def report_diff(game_mode)
+    if self.diff_state == Array.new(4, 1) then
+      if game_mode == 'g'
+        puts "Congratulations, you win!"
+        self.has_won = true
+      else # game_mode == 'c'
+        puts 'The computer guessed your code!'
+        self.has_won = true
+      end
     else
       print_diff
     end
@@ -73,6 +78,28 @@ class Board
     print ")\n"
   end
 
+  def print_code(code)
+    print '('
+    code.each { |elem|
+      case elem
+      when 1
+        print '1'.colorize(:red)
+      when 2
+        print '2'.colorize(:blue)
+      when 3
+        print '3'.colorize(:yellow)
+      when 4
+        print '4'.colorize(:green)
+      when 5
+        print '5'.colorize(:magenta)
+      when 6
+        print '6'.colorize(:cyan)
+      end
+    }
+    print ")\n"
+  end
+    
+  
   def print_diff
     shuffled_diff = self.diff_state.shuffle
     print '('
