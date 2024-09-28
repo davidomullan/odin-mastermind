@@ -4,6 +4,8 @@ Assignment: Build a Mastermind game from the command line where you have 12 turn
 - Developer: [David O'Mullan](https://github.com/davidomullan)
 - Guidelines: [The Odin Project](https://www.theodinproject.com/lessons/ruby-mastermind)
 
+![Example game of Mastermind](assets/example-game.png)
+
 # Game Rules
 In the game of Mastermind, one player generates a code of 4 marbles from a possible 6 colors (code may include more than one of each color). The other player has 12 turns to guess the code. After each guess, the guesser is provided with the number of guesses of correct position and color (white pegs), correct color but not position (black pegs), and neither correct position or color (empty pegs). The guesser wins if he discovers the code; otherwise the codemaker wins.
 
